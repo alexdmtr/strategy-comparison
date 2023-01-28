@@ -32,7 +32,6 @@ export const Strategies = () => {
 
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef.current!.api.getSelectedRows();
-    alert(JSON.stringify(selectedRows));
   }, []);
 
   return (

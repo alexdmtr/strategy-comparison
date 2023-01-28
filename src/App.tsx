@@ -2,11 +2,13 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Strategies } from './Strategies';
+import { StrategyBreakdown } from './StrategyBreakdown';
 
 function App() {
   return (
     <div className="App">
       <Strategies />
+      <StrategyBreakdown />
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
