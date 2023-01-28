@@ -2,37 +2,45 @@ import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { ColDef } from 'ag-grid-community';
+import { useCallback, useRef } from 'react';
 
+const defaultColDef: ColDef = {
+  sortable: true,
+  flex: 1,
+  minWidth: 1,
+  floatingFilter: true,
+}
 const columnDefs: ColDef[] = [
-  { field: 'strategy', filter: true, sortable: true },
-  { field: 'author', filter: true, sortable: true }
+  { field: 'strategy', filter: 'agTextColumnFilter' },
+  { field: 'author', filter: 'agTextColumnFilter' }
 ]
+
 export const Strategies = () => {
   const rowData = [
     { strategy: "Alpha 1 Strategy", author: "John Smith" },
     { strategy: "Beta 2 Strategy", author: "Jane Doe" },
     { strategy: "Charlie 3 Strategy", author: "Miles Morales" }
   ]
-  // const [rowData] = useState([
-  //   { make: "Toyota", model: "Celica", price: 35000 },
-  //   { make: "Ford", model: "Mondeo", price: 32000 },
-  //   { make: "Porsche", model: "Boxster", price: 72000 }
-  // ]);
+  const gridRef = useRef<AgGridReact>(null);
 
-  // const [columnDefs] = useState<ColDef[]>([
-  //   { field: 'make' },
-  //   { field: 'model' },
-  //   { field: 'price' }
-  // ])
+  const onSelectionChanged = useCallback(() => {
+    const selectedRows = gridRef.current!.api.getSelectedRows();
+    alert(JSON.stringify(selectedRows));
+  }, []);
 
   return (
     <div className="ag-theme-alpine" style={{ height: 400, width: 600 }}>
       <AgGridReact
+        ref={gridRef}
         rowData={rowData}
-        columnDefs={columnDefs}>
-      </AgGridReact>
+        defaultColDef={defaultColDef}
+        columnDefs={columnDefs}
+        rowSelection="single"
+        // onGridReady={onGridReady}
+        onSelectionChanged={onSelectionChanged}
+      />
     </div>
   );
 }
