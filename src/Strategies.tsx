@@ -3,8 +3,13 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 // import { useState } from 'react';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, ModuleRegistry } from 'ag-grid-community';
 import { useCallback, useRef } from 'react';
+import { SetFilterModule } from 'ag-grid-enterprise';
+
+ModuleRegistry.registerModules([
+  SetFilterModule,
+]);
 
 const defaultColDef: ColDef = {
   sortable: true,
@@ -13,8 +18,8 @@ const defaultColDef: ColDef = {
   floatingFilter: true,
 }
 const columnDefs: ColDef[] = [
-  { field: 'strategy', filter: 'agTextColumnFilter' },
-  { field: 'author', filter: 'agTextColumnFilter' }
+  { field: 'strategy', filter: 'agMultiColumnFilter' },
+  { field: 'author', filter: 'agMultiColumnFilter' }
 ]
 
 export const Strategies = () => {
