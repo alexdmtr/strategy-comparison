@@ -11,28 +11,38 @@ ModuleRegistry.registerModules([
   SetFilterModule,
 ]);
 
+export type Strategy = {
+  name: string;
+  author: string;
+}
+
 const defaultColDef: ColDef = {
   sortable: true,
   flex: 1,
-  minWidth: 1,
+  minWidth: 100,
   floatingFilter: true,
 }
 const columnDefs: ColDef[] = [
-  { field: 'strategy', filter: 'agMultiColumnFilter' },
+  { field: 'name', headerName: "Strategy", filter: 'agMultiColumnFilter' },
   { field: 'author', filter: 'agMultiColumnFilter' }
 ]
 
-export const Strategies = () => {
-  const rowData = [
-    { strategy: "Alpha 1 Strategy", author: "John Smith" },
-    { strategy: "Beta 2 Strategy", author: "Jane Doe" },
-    { strategy: "Charlie 3 Strategy", author: "Miles Morales" }
-  ]
-  const gridRef = useRef<AgGridReact>(null);
+const rowData: Strategy[] = [
+  { name: "Alpha 1 Strategy", author: "John Smith" },
+  { name: "Beta 2 Strategy", author: "Jane Doe" },
+  { name: "Charlie 3 Strategy", author: "Miles Morales" }
+]
 
+export interface StrategyGridProps {
+  onStrategySelected: (strategy: Strategy) => void;
+}
+
+export const Strategies = ({ onStrategySelected }: StrategyGridProps) => {
+  const gridRef = useRef<AgGridReact>(null);
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef.current!.api.getSelectedRows();
-  }, []);
+    onStrategySelected(selectedRows[0]);
+  }, [onStrategySelected]);
 
   return (
     <div className="ag-theme-alpine" style={{ height: 400, width: 600 }}>

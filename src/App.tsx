@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Strategies } from './Strategies';
+import { Strategies, Strategy } from './Strategies';
 import { StrategyBreakdown } from './StrategyBreakdown';
 
 function App() {
+  const [selectedStrategy, onStrategySelected] = useState<Strategy | null>(null);
+
   return (
     <div className="App">
-      <Strategies />
-      <StrategyBreakdown />
+      <Strategies onStrategySelected={onStrategySelected} />
+      {selectedStrategy !== null && <StrategyBreakdown strategy={selectedStrategy} />}
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
