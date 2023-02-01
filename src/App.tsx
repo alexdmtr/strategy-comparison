@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Strategies, Strategy } from './Strategies';
-import { StrategyBreakdown } from './StrategyBreakdown';
+import { Strategies, Strategy } from './components/Strategies';
+import { StrategyBreakdown } from './components/StrategyBreakdown';
 
 function App() {
   const [selectedStrategy, onStrategySelected] = useState<Strategy | null>(null);

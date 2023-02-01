@@ -33,6 +33,8 @@ export const StrategyBreakdown = ({ strategy }: StrategyBreakdownProps) => {
     let data = [];
     for (let i = 0; i < 10; i++) {
       data.push({
+        "desk_name": `Desk${i}`,
+        "name": `Name${i}`,
         "1y_sharpe": randomNumVal(),
         "1y_pnl": randomNumVal(),
         "1y_stddev_pnl": randomNumVal(),
