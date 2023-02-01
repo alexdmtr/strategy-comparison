@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 import { Strategies, Strategy } from './components/Strategies';
 import { StrategyBreakdown } from './components/StrategyBreakdown';
 import { PnlChart } from './charts/pnl';
 import SplitPane from 'react-split-pane';
+import { MaxPositionsChart } from './charts/MaxPositions';
+import { DeltaPositionsChart } from './charts/DeltaPositions';
 
 function App() {
   const [selectedStrategy, onStrategySelected] = useState<Strategy | null>(null);
@@ -17,8 +18,10 @@ function App() {
           <Strategies onStrategySelected={onStrategySelected} />
           {selectedStrategy !== null && <StrategyBreakdown strategy={selectedStrategy} />}
         </div>
-        <div style={{ height: "100%", width: "100%" }}>
+        <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
           <PnlChart />
+          <MaxPositionsChart />
+          <DeltaPositionsChart />
         </div>
       </SplitPane>
     </div>

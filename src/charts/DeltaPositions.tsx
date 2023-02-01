@@ -1,6 +1,6 @@
 import ReactECharts from 'echarts-for-react';
 
-export const PnlChart = () => {
+export const DeltaPositionsChart = () => {
   const options = {
     grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
@@ -21,11 +21,9 @@ export const PnlChart = () => {
       trigger: 'axis',
     },
     title: {
-      text: "Pnl / T0"
+      text: "Sum Position - Futures - Delta mode: AllInstruments"
     }
   };
 
-  return (
-    <ReactECharts option={options} style={{ height: "100%", width: "100%" }} />
-  );
+  return <ReactECharts option={options} style={{ height: "100%", width: "100%" }} />;
 }
