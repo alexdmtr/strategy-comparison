@@ -43,7 +43,7 @@ export const StrategyBreakdown = ({ strategy }: StrategyBreakdownProps) => {
     }
 
     return data;
-  }, [strategy]);
+  }, []);
   return (
     <div className="ag-theme-alpine" style={{ height: 400, width: 600 }}>
       <AgGridReact
