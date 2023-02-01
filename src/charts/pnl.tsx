@@ -22,5 +22,5 @@ export const PnlChart = () => {
     },
   };
 
-  return <ReactECharts option={options} />;
+  return <ReactECharts option={options} style={{ height: "100%", width: "100%" }} />;
 }

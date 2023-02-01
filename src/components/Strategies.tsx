@@ -45,7 +45,7 @@ export const Strategies = ({ onStrategySelected }: StrategyGridProps) => {
   }, [onStrategySelected]);
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: 600 }}>
+    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
