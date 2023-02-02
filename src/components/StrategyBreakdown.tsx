@@ -92,6 +92,7 @@ export const StrategyBreakdown = () => {
 
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
+      <h3 className="bp4-heading" style={{ margin: 8 }}>Strategy Perf Summaries</h3>
       <div style={{ display: "flex", flexDirection: "row", gap: 8, margin: 8, width: "100%" }}>
         <InputGroup placeholder="Search strategy..." rightElement={<Button icon="search" minimal />} type="search" />
         <InputGroup placeholder="Search by author..." rightElement={<Button icon="search" minimal />} type="search" />
