@@ -12,5 +12,5 @@ export function useDates() {
     dates.push(new Date(date));
   }
 
-  return dates;
+  return dates.map(date => date.toLocaleDateString("en-US"));
 }

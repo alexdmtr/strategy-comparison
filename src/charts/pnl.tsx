@@ -6,6 +6,11 @@ export interface ChartProps {
   strategies: Strategy[];
 }
 
+export function useSeries(strategies: Strategy[], field: 'turnover' | 'pnl') {
+  const dates = useDates();
+
+  return dates.map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy[field][x], 0))
+}
 export const PnlChart = ({ strategies }: ChartProps) => {
   const dates = useDates();
 
@@ -13,9 +18,6 @@ export const PnlChart = ({ strategies }: ChartProps) => {
     xAxis: {
       type: 'category',
       data: dates,
-      axisLabel: {
-        formatter: (value: string) => new Date(value).toLocaleDateString("en-US"),
-      }
     },
     yAxis: [{
       type: 'value',
@@ -35,13 +37,13 @@ export const PnlChart = ({ strategies }: ChartProps) => {
     series: [
       {
         name: "Turnover",
-        data: dates.map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.turnover[x], 0)),
+        data: useSeries(strategies, 'turnover'),
         type: 'bar',
         color: "grey",
       },
       {
         name: "Pnl",
-        data: dates.map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.pnl[x], 0)),
+        data: useSeries(strategies, 'pnl'),
         type: 'line',
         yAxisIndex: 1,
       }
@@ -62,7 +64,17 @@ export const PnlChart = ({ strategies }: ChartProps) => {
     },
     legend: {
       data: ["Turnover", "Pnl"]
-    }
+    },
+    dataZoom: [
+      {
+        show: true,
+        realtime: true,
+      },
+      {
+        type: 'inside',
+        realtime: true
+      }
+    ]
   };
 
   return (
