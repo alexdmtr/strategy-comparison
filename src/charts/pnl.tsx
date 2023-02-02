@@ -37,6 +37,7 @@ export const PnlChart = ({ strategies }: ChartProps) => {
         name: "Turnover",
         data: dates.map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.turnover[x], 0)),
         type: 'bar',
+        color: "grey",
       },
       {
         name: "Pnl",
@@ -59,6 +60,9 @@ export const PnlChart = ({ strategies }: ChartProps) => {
         saveAsImage: { show: true }
       }
     },
+    legend: {
+      data: ["Turnover", "Pnl"]
+    }
   };
 
   return (
