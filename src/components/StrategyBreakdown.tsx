@@ -1,6 +1,6 @@
-import { ColDef } from "ag-grid-community"
+import { ColDef, ValueFormatterParams } from "ag-grid-community"
 import { AgGridReact } from "ag-grid-react"
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Strategy } from "./Strategies"
 import './StrategyBreakdown.css';
 
@@ -11,41 +11,48 @@ const defaultColDef: ColDef = {
   // floatingFilter: true,
 }
 
+
+function decimalFormatter(params: ValueFormatterParams) {
+  return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 }).format(params.value)
+}
+
+function currencyFormatter(params: ValueFormatterParams) {
+  return new Intl.NumberFormat('en-US', { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(params.value)
+}
+
 const columnDefs: ColDef[] = [
-  { field: "desk_name", headerName: "DeskName" },
+  { field: "desk_name", headerName: "Desk Name" },
   { field: "name", headerName: "Name" },
-  { field: "1y_sharpe", headerName: "1Y Sharpe" },
-  { field: "1y_pnl", headerName: "1Y Pnl (k$)" },
-  { field: "1y_stddev_pnl", headerName: "1Y StdDev Pnl (k$)" },
-  { field: "1y_net_pnl", headerName: "1Y Net Pnl (k$)" }
+  { field: "1y_sharpe", headerName: "1Y Sharpe", valueFormatter: decimalFormatter },
+  { field: "1y_pnl", headerName: "1Y Pnl (k$)", valueFormatter: currencyFormatter },
+  { field: "1y_stddev_pnl", headerName: "1Y StdDev Pnl (k$)", valueFormatter: currencyFormatter },
+  { field: "1y_net_pnl", headerName: "1Y Net Pnl (k$)", valueFormatter: currencyFormatter }
 ]
 
-function randomNumVal() {
-  return 1000 - Math.random() * 2000;
+function randomNumVal(lowerBound: number, upperBound: number) {
+  return lowerBound + Math.random() * (upperBound - lowerBound);
 }
 
-export interface StrategyBreakdownProps {
-  strategy: Strategy;
-}
 
-export const StrategyBreakdown = ({ strategy }: StrategyBreakdownProps) => {
-  const rowData = useMemo(() => {
+export const StrategyBreakdown = () => {
+  const [rowData] = useState(() => {
     let data = [];
     for (let i = 0; i < 10; i++) {
       data.push({
         "desk_name": `Desk${i}`,
-        "name": `Name${i}`,
-        "1y_sharpe": randomNumVal(),
-        "1y_pnl": randomNumVal(),
-        "1y_stddev_pnl": randomNumVal(),
-        "1y_net_pnl": randomNumVal()
+        "name": `Strategy ${String.fromCharCode('A'.charCodeAt(0) + i)}`,
+        "1y_sharpe": randomNumVal(0.5, 3.5),
+        "1y_pnl": randomNumVal(-100, 500),
+        "1y_stddev_pnl": randomNumVal(10, 20),
+        "1y_net_pnl": randomNumVal(200, 300)
       })
     }
 
     return data;
-  }, []);
+  });
+
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+    <div className="ag-theme-alpine" style={{ height: "100%", width: "100%" }}>
       <AgGridReact
 
         rowData={rowData}

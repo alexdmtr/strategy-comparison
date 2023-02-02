@@ -1,7 +1,5 @@
 import { AgGridReact } from 'ag-grid-react';
 
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 // import { useState } from 'react';
 import { ColDef, ModuleRegistry } from 'ag-grid-community';
 import { useCallback, useRef } from 'react';
