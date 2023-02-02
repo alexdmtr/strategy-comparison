@@ -1,3 +1,6 @@
+import { Button, Icon, InputGroup, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
+import { DateRangePicker } from "@blueprintjs/datetime";
+import { MenuItem2, Popover2 } from "@blueprintjs/popover2";
 import { ColDef, ModuleRegistry, ValueFormatterParams } from "ag-grid-community"
 import { SetFilterModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react"
@@ -85,8 +88,22 @@ export const StrategyBreakdown = () => {
 
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
-
-      <div className="ag-theme-balham" style={{ height: "100%", width: "100%" }}>
+      <div style={{ display: "flex", flexDirection: "row", gap: 8, margin: 8 }}>
+        <InputGroup placeholder="Search strategy..." rightElement={<Button icon="search" minimal />} type="search" />
+        <InputGroup placeholder="Search by author..." rightElement={<Button icon="search" minimal />} type="search" />
+        <Popover2 content={<Menu>
+          <MenuItem2 text="One Year" labelElement={<Icon icon="small-tick" />} />
+          <MenuItem2 text="Two Years" />
+          <MenuItem2 text="Five Years" />
+          <MenuDivider />
+          <MenuItem2 text="Custom date range…">
+            <DateRangePicker />
+          </MenuItem2>
+        </Menu>} >
+          <Button text="One year" icon="calendar" rightIcon="caret-down" />
+        </Popover2>
+      </div>
+      <div className="ag-theme-balham" style={{ flex: 1 }}>
         <AgGridReact
           rowData={rowData}
           defaultColDef={defaultColDef}

@@ -11,6 +11,10 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-community/styles/ag-theme-balham.css';
 
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+import "@blueprintjs/datetime/lib/css/blueprint-datetime.css";
+
 function App() {
   const [selectedStrategy, onStrategySelected] = useState<Strategy | null>(null);
 
