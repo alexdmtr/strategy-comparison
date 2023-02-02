@@ -29,7 +29,7 @@ function App() {
         <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
           {selectedRows.length > 0 && <PnlChart strategies={selectedRows} />}
           {selectedRows.length > 0 && <MaxPositionsChart />}
-          {selectedRows.length > 0 && <DeltaPositionsChart />}
+          {selectedRows.length > 0 && <DeltaPositionsChart strategies={selectedRows} />}
         </div>
       </SplitPane>
     </div>

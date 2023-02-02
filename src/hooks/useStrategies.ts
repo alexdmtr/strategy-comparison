@@ -20,9 +20,17 @@ function randomWalk(length: number) {
   return walk;
 }
 
+function randomSeries(length: number, generator: () => number) {
+  return Array.from({ length }).map(() => generator());
+}
+
 export function useStrategies() {
   const dates = useDates();
-  const [normal] = useState(() => random.normal(3.5, 1));
+  const [turnoverNormal] = useState(() => random.normal(3.5, 1));
+  const [sumLongNormal] = useState(() => random.normal(4 / 2, 0.5));
+  const [sumAbsNormal] = useState(() => random.normal(5 / 2, 0.5));
+  const [deltaNormal] = useState(() => random.normal(0, 0.25));
+
   const [rowData] = useState(() => {
     let data = [];
     for (let i = 1; i <= 26; i++) {
@@ -33,11 +41,11 @@ export function useStrategies() {
         "1y_pnl": randomNumVal(-100, 500),
         "1y_stddev_pnl": randomNumVal(10, 20),
         "1y_net_pnl": randomNumVal(200, 300),
-        // "pnl": Array.from({ length: dates.length }).map(() => randomNumVal(-150, 100)),
         "pnl": randomWalk(dates.length),
-        "turnover": Array.from({ length: dates.length }).map(() => normal())
-
-        // turnover: randomWalk(dates.length),
+        "turnover": randomSeries(dates.length, turnoverNormal),
+        "sum_long_positions": randomSeries(dates.length, sumLongNormal),
+        "sum_abs_short_positions": randomSeries(dates.length, sumAbsNormal),
+        "delta_long_short_positions": randomSeries(dates.length, deltaNormal)
       })
     }
 

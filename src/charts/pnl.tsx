@@ -6,7 +6,7 @@ export interface ChartProps {
   strategies: Strategy[];
 }
 
-export function useSeries(strategies: Strategy[], field: 'turnover' | 'pnl') {
+export function useSeries(strategies: Strategy[], field: keyof Pick<Strategy, 'turnover' | 'pnl' | 'sum_long_positions' | 'sum_abs_short_positions' | 'delta_long_short_positions'>) {
   const dates = useDates();
 
   return dates.map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy[field][x], 0))
