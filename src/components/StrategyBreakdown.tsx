@@ -4,8 +4,8 @@ import { MenuItem2, Popover2 } from "@blueprintjs/popover2";
 import { ColDef, ModuleRegistry, ValueFormatterParams } from "ag-grid-community"
 import { SetFilterModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react"
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Strategy } from "./Strategies"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Strategy, useStrategies } from "../hooks/useStrategies";
 import './StrategyBreakdown.css';
 
 ModuleRegistry.registerModules([
@@ -64,31 +64,19 @@ const columnDefs: ColDef[] = [
   }
 ]
 
-function randomNumVal(lowerBound: number, upperBound: number) {
-  return lowerBound + Math.random() * (upperBound - lowerBound);
+export interface StrategyBreakdownProps {
+  onRowSelectionChanged: (selectedRows: Strategy[]) => void;
 }
 
-
-export const StrategyBreakdown = () => {
+export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownProps) => {
   const gridRef = useRef<AgGridReact>(null);
   const [multiselect, setMultiselect] = useState(false);
+  const rowData = useStrategies();
 
-
-  const [rowData] = useState(() => {
-    let data = [];
-    for (let i = 0; i < 27; i++) {
-      data.push({
-        "desk_name": `Desk${i}`,
-        "name": `Strategy ${String.fromCharCode('A'.charCodeAt(0) + i)}`,
-        "1y_sharpe": randomNumVal(0.5, 3.5),
-        "1y_pnl": randomNumVal(-100, 500),
-        "1y_stddev_pnl": randomNumVal(10, 20),
-        "1y_net_pnl": randomNumVal(200, 300)
-      })
-    }
-
-    return data;
-  });
+  const onSelectionChanged = useCallback(() => {
+    const rows = gridRef.current!.api.getSelectedRows();
+    onRowSelectionChanged(rows);
+  }, []);
 
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
@@ -115,12 +103,13 @@ export const StrategyBreakdown = () => {
       </div>
       <div className="ag-theme-balham" style={{ flex: 1 }}>
         <AgGridReact
+          ref={gridRef}
           rowData={rowData}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
           rowSelection={multiselect ? "multiple" : "single"}
-          ref={gridRef}
           onGridReady={(event) => event.api.sizeColumnsToFit()}
+          onSelectionChanged={onSelectionChanged}
         />
       </div>
     </div>

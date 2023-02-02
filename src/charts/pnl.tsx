@@ -1,28 +1,58 @@
 import ReactECharts from 'echarts-for-react';
+import { Strategy } from '../hooks/useStrategies';
 
-export const PnlChart = () => {
+export interface ChartProps {
+  strategies: Strategy[];
+}
+
+export const PnlChart = ({ strategies }: ChartProps) => {
   const options = {
-    grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     },
-    yAxis: {
+    yAxis: [{
       type: 'value',
-    },
+      name: "Turnover",
+      position: "left",
+      axisLabel: {
+        formatter: "{value} M",
+      }
+    }, {
+      type: 'value',
+      name: "Pnl",
+      position: "right",
+      axisLabel: {
+        formatter: "{value}k"
+      }
+    }],
     series: [
       {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'line',
-        smooth: true,
+        name: "Turnover",
+        data: Array.from({ length: 7 }).map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.turnover[x], 0)),
+        type: 'bar',
       },
+      {
+        name: "Pnl",
+        data: Array.from({ length: 7 }).map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.pnl[x], 0)),
+        type: 'line',
+        yAxisIndex: 1,
+      }
     ],
     tooltip: {
       trigger: 'axis',
     },
     title: {
       text: "Pnl / T0"
-    }
+    },
+    toolbox: {
+      feature: {
+        dataView: { show: true, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
+    },
   };
 
   return (

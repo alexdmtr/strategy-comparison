@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import './App.css';
-import { Strategies, Strategy } from './components/Strategies';
 import { StrategyBreakdown } from './components/StrategyBreakdown';
 import { PnlChart } from './charts/pnl';
 import SplitPane from 'react-split-pane';
@@ -15,21 +13,23 @@ import 'ag-grid-community/styles/ag-theme-balham.css';
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 import "@blueprintjs/datetime/lib/css/blueprint-datetime.css";
+import { useState } from 'react';
+import { Strategy } from './hooks/useStrategies';
 
 function App() {
-  const [selectedStrategy, onStrategySelected] = useState<Strategy | null>(null);
+  const [selectedRows, setSelectedRows] = useState<Strategy[]>([]);
 
   return (
     <div className="App">
       {/* @ts-ignore */}
       <SplitPane split='vertical' minSize={50} defaultSize={800} className="Reizer">
         <div style={{ height: "100%", width: "100%" }}>
-          <StrategyBreakdown />
+          <StrategyBreakdown onRowSelectionChanged={setSelectedRows} />
         </div>
         <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
-          <PnlChart />
-          <MaxPositionsChart />
-          <DeltaPositionsChart />
+          {selectedRows.length > 0 && <PnlChart strategies={selectedRows} />}
+          {/* <MaxPositionsChart />
+          <DeltaPositionsChart /> */}
         </div>
       </SplitPane>
     </div>
