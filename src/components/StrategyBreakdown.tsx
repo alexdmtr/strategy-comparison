@@ -1,10 +1,10 @@
-import { Button, Icon, InputGroup, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
+import { Button, Checkbox, Icon, InputGroup, Menu, MenuDivider, MenuItem, Switch } from "@blueprintjs/core";
 import { DateRangePicker } from "@blueprintjs/datetime";
 import { MenuItem2, Popover2 } from "@blueprintjs/popover2";
 import { ColDef, ModuleRegistry, ValueFormatterParams } from "ag-grid-community"
 import { SetFilterModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react"
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Strategy } from "./Strategies"
 import './StrategyBreakdown.css';
 
@@ -28,8 +28,8 @@ function currencyFormatter(params: ValueFormatterParams) {
 }
 
 const columnDefs: ColDef[] = [
-  { field: "desk_name", headerName: "Desk Name", filter: 'agMultiColumnFilter' },
   { field: "name", headerName: "Name", filter: 'agMultiColumnFilter' },
+  { field: "desk_name", headerName: "Desk Name", filter: 'agMultiColumnFilter' },
   {
     field: "1y_sharpe", headerName: "1Y Sharpe", valueFormatter: decimalFormatter, sort: "desc",
     cellClassRules: {
@@ -70,6 +70,10 @@ function randomNumVal(lowerBound: number, upperBound: number) {
 
 
 export const StrategyBreakdown = () => {
+  const gridRef = useRef<AgGridReact>(null);
+  const [multiselect, setMultiselect] = useState(false);
+
+
   const [rowData] = useState(() => {
     let data = [];
     for (let i = 0; i < 27; i++) {
@@ -88,27 +92,33 @@ export const StrategyBreakdown = () => {
 
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
-      <div style={{ display: "flex", flexDirection: "row", gap: 8, margin: 8 }}>
+      <div style={{ display: "flex", flexDirection: "row", gap: 8, margin: 8, width: "100%" }}>
         <InputGroup placeholder="Search strategy..." rightElement={<Button icon="search" minimal />} type="search" />
         <InputGroup placeholder="Search by author..." rightElement={<Button icon="search" minimal />} type="search" />
-        <Popover2 content={<Menu>
-          <MenuItem2 text="One Year" labelElement={<Icon icon="small-tick" />} />
-          <MenuItem2 text="Two Years" />
-          <MenuItem2 text="Five Years" />
-          <MenuDivider />
-          <MenuItem2 text="Custom date range…">
-            <DateRangePicker />
-          </MenuItem2>
-        </Menu>} >
-          <Button text="One year" icon="calendar" rightIcon="caret-down" />
-        </Popover2>
+        <div style={{ marginLeft: "auto", marginRight: 15, display: "flex", flexDirection: "row", gap: 8 }}>
+          <Checkbox checked={multiselect} onChange={() => setMultiselect(!multiselect)} label="Multiselect" style={{ marginTop: "auto", marginBottom: "auto" }} />
+          <Popover2 content={
+            <Menu>
+              <MenuItem2 text="One Year" labelElement={<Icon icon="small-tick" />} />
+              <MenuItem2 text="Two Years" />
+              <MenuItem2 text="Five Years" />
+              <MenuDivider />
+              <MenuItem2 text="Custom date range…">
+                <DateRangePicker />
+              </MenuItem2>
+            </Menu>}
+          >
+            <Button text="One year" icon="calendar" rightIcon="caret-down" />
+          </Popover2>
+        </div>
       </div>
       <div className="ag-theme-balham" style={{ flex: 1 }}>
         <AgGridReact
           rowData={rowData}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
-          rowSelection="single"
+          rowSelection={multiselect ? "multiple" : "single"}
+          ref={gridRef}
           onGridReady={(event) => event.api.sizeColumnsToFit()}
         />
       </div>
