@@ -12,8 +12,7 @@ ModuleRegistry.registerModules([
 const defaultColDef: ColDef = {
   sortable: true,
   flex: 1,
-  // minWidth: 1,
-  // floatingFilter: true,
+  floatingFilter: true,
 }
 
 
@@ -26,14 +25,15 @@ function currencyFormatter(params: ValueFormatterParams) {
 }
 
 const columnDefs: ColDef[] = [
-  { field: "desk_name", headerName: "Desk Name", filter: 'agMultiColumnFilter', floatingFilter: true },
-  { field: "name", headerName: "Name", filter: 'agMultiColumnFilter', floatingFilter: true },
+  { field: "desk_name", headerName: "Desk Name", filter: 'agMultiColumnFilter' },
+  { field: "name", headerName: "Name", filter: 'agMultiColumnFilter' },
   {
     field: "1y_sharpe", headerName: "1Y Sharpe", valueFormatter: decimalFormatter, sort: "desc",
     cellClassRules: {
       'rag-green': params => params.value >= 2,
       'rag-red': params => params.value < 1
     },
+    filter: 'agNumberColumnFilter',
     type: "rightAligned",
   },
   {
@@ -42,11 +42,12 @@ const columnDefs: ColDef[] = [
       'rag-green': params => params.value > 0,
       'rag-red': params => params.value < 0
     },
+    filter: 'agNumberColumnFilter',
     type: "rightAligned",
-
   },
   {
     field: "1y_stddev_pnl", headerName: "1Y StdDev Pnl (k$)", valueFormatter: currencyFormatter,
+    filter: 'agNumberColumnFilter',
     type: "rightAligned",
   },
   {
@@ -55,6 +56,7 @@ const columnDefs: ColDef[] = [
       'rag-green': params => params.value > 0,
       'rag-red': params => params.value < 0
     },
+    filter: 'agNumberColumnFilter',
     type: "rightAligned",
   }
 ]
@@ -67,7 +69,7 @@ function randomNumVal(lowerBound: number, upperBound: number) {
 export const StrategyBreakdown = () => {
   const [rowData] = useState(() => {
     let data = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 27; i++) {
       data.push({
         "desk_name": `Desk${i}`,
         "name": `Strategy ${String.fromCharCode('A'.charCodeAt(0) + i)}`,
@@ -82,15 +84,17 @@ export const StrategyBreakdown = () => {
   });
 
   return (
-    <div className="ag-theme-balham" style={{ height: "100%", width: "100%" }}>
-      <AgGridReact
+    <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
 
-        rowData={rowData}
-        defaultColDef={defaultColDef}
-        columnDefs={columnDefs}
-        rowSelection="single"
-        onGridReady={(event) => event.api.sizeColumnsToFit()}
-      />
+      <div className="ag-theme-balham" style={{ height: "100%", width: "100%" }}>
+        <AgGridReact
+          rowData={rowData}
+          defaultColDef={defaultColDef}
+          columnDefs={columnDefs}
+          rowSelection="single"
+          onGridReady={(event) => event.api.sizeColumnsToFit()}
+        />
+      </div>
     </div>
   )
 }
