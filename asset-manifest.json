@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/strategy-comparison/static/css/main.e64e7ebf.css",
-    "main.js": "/strategy-comparison/static/js/main.db971f57.js",
+    "main.js": "/strategy-comparison/static/js/main.092eb346.js",
     "static/js/787.210e450f.chunk.js": "/strategy-comparison/static/js/787.210e450f.chunk.js",
     "index.html": "/strategy-comparison/index.html",
     "main.e64e7ebf.css.map": "/strategy-comparison/static/css/main.e64e7ebf.css.map",
-    "main.db971f57.js.map": "/strategy-comparison/static/js/main.db971f57.js.map",
+    "main.092eb346.js.map": "/strategy-comparison/static/js/main.092eb346.js.map",
     "787.210e450f.chunk.js.map": "/strategy-comparison/static/js/787.210e450f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e64e7ebf.css",
-    "static/js/main.db971f57.js"
+    "static/js/main.092eb346.js"
   ]
 }
