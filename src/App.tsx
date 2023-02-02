@@ -9,6 +9,7 @@ import { DeltaPositionsChart } from './charts/DeltaPositions';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import 'ag-grid-community/styles/ag-theme-balham.css';
 
 function App() {
   const [selectedStrategy, onStrategySelected] = useState<Strategy | null>(null);

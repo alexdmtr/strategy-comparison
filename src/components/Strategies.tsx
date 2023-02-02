@@ -20,6 +20,7 @@ const defaultColDef: ColDef = {
   minWidth: 100,
   floatingFilter: true,
 }
+
 const columnDefs: ColDef[] = [
   { field: 'name', headerName: "Strategy", filter: 'agMultiColumnFilter' },
   { field: 'author', filter: 'agMultiColumnFilter' }

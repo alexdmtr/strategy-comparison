@@ -1,8 +1,13 @@
-import { ColDef, ValueFormatterParams } from "ag-grid-community"
+import { ColDef, ModuleRegistry, ValueFormatterParams } from "ag-grid-community"
+import { SetFilterModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react"
 import { useMemo, useState } from "react";
 import { Strategy } from "./Strategies"
 import './StrategyBreakdown.css';
+
+ModuleRegistry.registerModules([
+  SetFilterModule,
+]);
 
 const defaultColDef: ColDef = {
   sortable: true,
@@ -21,12 +26,37 @@ function currencyFormatter(params: ValueFormatterParams) {
 }
 
 const columnDefs: ColDef[] = [
-  { field: "desk_name", headerName: "Desk Name" },
-  { field: "name", headerName: "Name" },
-  { field: "1y_sharpe", headerName: "1Y Sharpe", valueFormatter: decimalFormatter },
-  { field: "1y_pnl", headerName: "1Y Pnl (k$)", valueFormatter: currencyFormatter },
-  { field: "1y_stddev_pnl", headerName: "1Y StdDev Pnl (k$)", valueFormatter: currencyFormatter },
-  { field: "1y_net_pnl", headerName: "1Y Net Pnl (k$)", valueFormatter: currencyFormatter }
+  { field: "desk_name", headerName: "Desk Name", filter: 'agMultiColumnFilter', floatingFilter: true },
+  { field: "name", headerName: "Name", filter: 'agMultiColumnFilter', floatingFilter: true },
+  {
+    field: "1y_sharpe", headerName: "1Y Sharpe", valueFormatter: decimalFormatter, sort: "desc",
+    cellClassRules: {
+      'rag-green': params => params.value >= 2,
+      'rag-red': params => params.value < 1
+    },
+    type: "rightAligned",
+  },
+  {
+    field: "1y_pnl", headerName: "1Y Pnl (k$)", valueFormatter: currencyFormatter,
+    cellClassRules: {
+      'rag-green': params => params.value > 0,
+      'rag-red': params => params.value < 0
+    },
+    type: "rightAligned",
+
+  },
+  {
+    field: "1y_stddev_pnl", headerName: "1Y StdDev Pnl (k$)", valueFormatter: currencyFormatter,
+    type: "rightAligned",
+  },
+  {
+    field: "1y_net_pnl", headerName: "1Y Net Pnl (k$)", valueFormatter: currencyFormatter,
+    cellClassRules: {
+      'rag-green': params => params.value > 0,
+      'rag-red': params => params.value < 0
+    },
+    type: "rightAligned",
+  }
 ]
 
 function randomNumVal(lowerBound: number, upperBound: number) {
@@ -52,7 +82,7 @@ export const StrategyBreakdown = () => {
   });
 
   return (
-    <div className="ag-theme-alpine" style={{ height: "100%", width: "100%" }}>
+    <div className="ag-theme-balham" style={{ height: "100%", width: "100%" }}>
       <AgGridReact
 
         rowData={rowData}
