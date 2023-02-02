@@ -1,28 +1,80 @@
 import ReactECharts from 'echarts-for-react';
+import { useDates } from '../hooks/useDates';
+import { ChartProps, useSeries } from './pnl';
 
-export const MaxPositionsChart = () => {
+export const MaxPositionsChart = ({ strategies }: ChartProps) => {
+  const dates = useDates();
+
   const options = {
-    grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: dates,
     },
-    yAxis: {
-      type: 'value',
-    },
+    yAxis: [
+      {
+        type: 'value',
+        name: "Delta Positions",
+        axisLabel: {
+          formatter: "{value}M",
+        }
+      },
+      {
+        type: 'value',
+        name: "Positions",
+        axisLabel: {
+          formatter: "{value}M"
+        }
+      }],
     series: [
       {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'line',
-        smooth: true,
+        name: "Max Sum Long/Short Pos",
+        data: useSeries(strategies, 'max_abs'),
+        type: 'bar',
+        color: "lightblue",
+        yAxisIndex: 0,
       },
+      {
+        name: "Nb Long",
+        data: useSeries(strategies, 'nb_long'),
+        type: 'line',
+        color: 'orange',
+        yAxisIndex: 1,
+      },
+      {
+        name: "Nb Short",
+        data: useSeries(strategies, 'nb_short'),
+        type: 'line',
+        color: 'green',
+        yAxisIndex: 1,
+      }
     ],
     tooltip: {
       trigger: 'axis',
     },
     title: {
       text: "Long/Short - Futures"
-    }
+    },
+    toolbox: {
+      feature: {
+        dataView: { show: true, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
+    },
+    legend: {
+      data: ["Max Sum Long/Short Pos", "Nb Long", "Nb Short"]
+    },
+    dataZoom: [
+      {
+        show: true,
+        realtime: true,
+      },
+      {
+        type: 'inside',
+        realtime: true
+      }
+    ]
   };
 
   return <ReactECharts option={options} style={{ height: "100%", width: "100%" }} />;

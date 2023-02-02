@@ -30,6 +30,7 @@ export function useStrategies() {
   const [sumLongNormal] = useState(() => random.normal(4 / 2, 0.5));
   const [sumAbsNormal] = useState(() => random.normal(5 / 2, 0.5));
   const [deltaNormal] = useState(() => random.normal(0, 0.25));
+  const [maxAbsNormal] = useState(() => random.normal(2.5, 1));
 
   const [rowData] = useState(() => {
     let data = [];
@@ -45,7 +46,10 @@ export function useStrategies() {
         "turnover": randomSeries(dates.length, turnoverNormal),
         "sum_long_positions": randomSeries(dates.length, sumLongNormal),
         "sum_abs_short_positions": randomSeries(dates.length, sumAbsNormal),
-        "delta_long_short_positions": randomSeries(dates.length, deltaNormal)
+        "delta_long_short_positions": randomSeries(dates.length, deltaNormal),
+        "max_abs": randomSeries(dates.length, maxAbsNormal),
+        "nb_long": randomSeries(dates.length, () => random.float(0, 1)),
+        "nb_short": randomSeries(dates.length, () => random.float(0, 1))
       })
     }
 
