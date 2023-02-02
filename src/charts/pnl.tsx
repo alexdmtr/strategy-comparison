@@ -1,4 +1,5 @@
 import ReactECharts from 'echarts-for-react';
+import { useDates } from '../hooks/useDates';
 import { Strategy } from '../hooks/useStrategies';
 
 export interface ChartProps {
@@ -6,10 +7,15 @@ export interface ChartProps {
 }
 
 export const PnlChart = ({ strategies }: ChartProps) => {
+  const dates = useDates();
+
   const options = {
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: dates,
+      axisLabel: {
+        formatter: (value: string) => new Date(value).toLocaleDateString("en-US"),
+      }
     },
     yAxis: [{
       type: 'value',
@@ -29,12 +35,12 @@ export const PnlChart = ({ strategies }: ChartProps) => {
     series: [
       {
         name: "Turnover",
-        data: Array.from({ length: 7 }).map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.turnover[x], 0)),
+        data: dates.map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.turnover[x], 0)),
         type: 'bar',
       },
       {
         name: "Pnl",
-        data: Array.from({ length: 7 }).map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.pnl[x], 0)),
+        data: dates.map((_, i) => i).map(x => strategies.reduce((sum, strategy) => sum + strategy.pnl[x], 0)),
         type: 'line',
         yAxisIndex: 1,
       }

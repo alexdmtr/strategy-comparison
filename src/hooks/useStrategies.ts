@@ -1,4 +1,6 @@
+import random from "random";
 import { useState } from "react";
+import { useDates } from "./useDates";
 
 
 function randomNumVal(lowerBound: number, upperBound: number) {
@@ -7,7 +9,20 @@ function randomNumVal(lowerBound: number, upperBound: number) {
 
 export type Strategy = ReturnType<typeof useStrategies>[number];
 
+function randomWalk(length: number) {
+  let walk = [];
+  let cursor = 0;
+  for (let i = 0; i < length; i++) {
+    cursor += randomNumVal(-1.5, 1.5);
+    walk.push(cursor);
+  }
+
+  return walk;
+}
+
 export function useStrategies() {
+  const dates = useDates();
+  const [normal] = useState(() => random.normal(3.5, 1));
   const [rowData] = useState(() => {
     let data = [];
     for (let i = 1; i <= 26; i++) {
@@ -18,8 +33,11 @@ export function useStrategies() {
         "1y_pnl": randomNumVal(-100, 500),
         "1y_stddev_pnl": randomNumVal(10, 20),
         "1y_net_pnl": randomNumVal(200, 300),
-        "pnl": Array.from({ length: 7 }).map(() => randomNumVal(-150, 100)),
-        "turnover": Array.from({ length: 7 }).map(() => randomNumVal(0, 7))
+        // "pnl": Array.from({ length: dates.length }).map(() => randomNumVal(-150, 100)),
+        "pnl": randomWalk(dates.length),
+        "turnover": Array.from({ length: dates.length }).map(() => normal())
+
+        // turnover: randomWalk(dates.length),
       })
     }
 
