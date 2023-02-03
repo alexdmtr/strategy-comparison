@@ -1,9 +1,11 @@
 import ReactECharts from 'echarts-for-react';
 import { useDates } from '../hooks/useDates';
+import { useTheme } from '../hooks/useTheme';
 import { ChartProps, useSeries } from './pnl';
 
 export const DeltaPositionsChart = ({ strategies }: ChartProps) => {
   const dates = useDates();
+  const [theme] = useTheme();
 
   const options = {
     xAxis: {
@@ -77,5 +79,5 @@ export const DeltaPositionsChart = ({ strategies }: ChartProps) => {
     ]
   };
 
-  return <ReactECharts option={options} style={{ height: "100%", width: "100%" }} />;
+  return <ReactECharts option={options} style={{ height: "100%", width: "100%" }} theme={theme} />;
 }

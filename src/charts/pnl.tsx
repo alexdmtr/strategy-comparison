@@ -1,6 +1,7 @@
 import ReactECharts from 'echarts-for-react';
 import { useDates } from '../hooks/useDates';
 import { Strategy } from '../hooks/useStrategies';
+import { useTheme } from '../hooks/useTheme';
 
 export interface ChartProps {
   strategies: Strategy[];
@@ -13,6 +14,7 @@ export function useSeries(strategies: Strategy[], field: keyof Pick<Strategy, 't
 }
 export const PnlChart = ({ strategies }: ChartProps) => {
   const dates = useDates();
+  const [theme] = useTheme();
 
   const options = {
     xAxis: {
@@ -78,6 +80,6 @@ export const PnlChart = ({ strategies }: ChartProps) => {
   };
 
   return (
-    <ReactECharts option={options} style={{ height: "100%", width: "100%" }} />
+    <ReactECharts option={options} style={{ height: "100%", width: "100%" }} theme={theme} />
   );
 }

@@ -6,6 +6,7 @@ import { SetFilterModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Strategy, useStrategies } from "../hooks/useStrategies";
+import { useTheme } from "../hooks/useTheme";
 import './StrategyBreakdown.css';
 
 ModuleRegistry.registerModules([
@@ -72,15 +73,21 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
   const gridRef = useRef<AgGridReact>(null);
   const [multiselect, setMultiselect] = useState(false);
   const rowData = useStrategies();
+  const [theme, setTheme] = useTheme();
 
   const onSelectionChanged = useCallback(() => {
     const rows = gridRef.current!.api.getSelectedRows();
     onRowSelectionChanged(rows);
   }, []);
 
+  const gridClassName = useMemo(() => `ag-theme-balham${theme === 'dark' ? '-dark' : ''}`, [theme]);
+
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
-      <h3 className="bp4-heading" style={{ margin: 8 }}>Strategy Perf Summaries</h3>
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+        <h3 className="bp4-heading" style={{ margin: 8 }}>Strategy Perf Summaries</h3>
+        <Switch label="Dark Mode" checked={theme === 'dark'} onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')} style={{ marginTop: "auto", marginBottom: "auto", marginRight: 10 }} />
+      </div>
       <div style={{ display: "flex", flexDirection: "row", gap: 8, margin: 8, width: "100%" }}>
         <InputGroup placeholder="Search strategy..." rightElement={<Button icon="search" minimal />} type="search" />
         <InputGroup placeholder="Search by author..." rightElement={<Button icon="search" minimal />} type="search" />
@@ -101,7 +108,7 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
           </Popover2>
         </div>
       </div>
-      <div className="ag-theme-balham" style={{ flex: 1 }}>
+      <div className={gridClassName} style={{ flex: 1 }}>
         <AgGridReact
           ref={gridRef}
           rowData={rowData}
