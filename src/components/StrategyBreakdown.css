@@ -2,9 +2,23 @@
   --ag-font-size: 12px;
 }
 
+.rag-darkgreen {
+  color: green;
+  font-weight: bold;
+}
+
+.bp4-dark .rag-darkgreen {
+  color: lightgreen;
+}
+
 .rag-green {
   color: green;
 }
+
+.bp4-dark .rag-green {
+  color: lightgreen;
+}
+
 
 .rag-red {
   color: lightcoral;

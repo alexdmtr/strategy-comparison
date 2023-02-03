@@ -34,7 +34,8 @@ const columnDefs: ColDef[] = [
   {
     field: "1y_sharpe", headerName: "1Y Sharpe", valueFormatter: decimalFormatter, sort: "desc",
     cellClassRules: {
-      'rag-green': params => params.value >= 2,
+      'rag-darkgreen': params => params.value >= 3,
+      'rag-green': params => params.value >= 2 && params.value < 3,
       'rag-red': params => params.value < 1
     },
     filter: 'agNumberColumnFilter',
