@@ -1,10 +1,10 @@
 import { Button, Checkbox, Icon, InputGroup, Menu, MenuDivider, MenuItem, Switch } from "@blueprintjs/core";
 import { DateRangePicker } from "@blueprintjs/datetime";
 import { MenuItem2, Popover2 } from "@blueprintjs/popover2";
-import { ColDef, ModuleRegistry, ValueFormatterParams } from "ag-grid-community"
+import { ColDef, GetContextMenuItemsParams, MenuItemDef, ModuleRegistry, ValueFormatterParams } from "ag-grid-community"
 import { SetFilterModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Strategy, useStrategies } from "../hooks/useStrategies";
 import { useTheme } from "../hooks/useTheme";
 import './StrategyBreakdown.css';
@@ -72,16 +72,41 @@ export interface StrategyBreakdownProps {
 
 export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownProps) => {
   const gridRef = useRef<AgGridReact>(null);
+  const [selectedRows, setSelectedRows] = useState<Strategy[]>([]);
   const [multiselect, setMultiselect] = useState(false);
   const rowData = useStrategies();
   const [theme, setTheme] = useTheme();
 
   const onSelectionChanged = useCallback(() => {
     const rows = gridRef.current!.api.getSelectedRows();
+    setSelectedRows(rows);
     onRowSelectionChanged(rows);
-  }, []);
+  }, [onRowSelectionChanged]);
 
   const gridClassName = useMemo(() => `ag-theme-balham${theme === 'dark' ? '-dark' : ''}`, [theme]);
+
+  const getContextMenuItems = useCallback((params: GetContextMenuItemsParams): (string | MenuItemDef)[] => {
+    return [
+      {
+        name: 'Compare selected…',
+        disabled: selectedRows.length !== 2,
+        tooltip: 'Compare selected strategies. Exactly two strategies need to be selected.'
+      },
+      'separator',
+      'copy',
+      'copyWithHeaders',
+      'copyWithGroupHeaders',
+      'paste',
+      'separator',
+      {
+        name: 'Export',
+        subMenu: [
+          'csvExport',
+          'excelExport'
+        ]
+      },
+    ];
+  }, []);
 
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
@@ -117,7 +142,9 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
           columnDefs={columnDefs}
           rowSelection={multiselect ? "multiple" : "single"}
           onGridReady={(event) => event.api.sizeColumnsToFit()}
+
           onSelectionChanged={onSelectionChanged}
+          getContextMenuItems={getContextMenuItems}
         />
       </div>
     </div>
