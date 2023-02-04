@@ -1,4 +1,4 @@
-import { Button, Checkbox, Icon, InputGroup, Menu, MenuDivider, MenuItem, Switch } from "@blueprintjs/core";
+import { Button, Checkbox, Dialog, Icon, InputGroup, Menu, MenuDivider, MenuItem, Switch } from "@blueprintjs/core";
 import { DateRangePicker } from "@blueprintjs/datetime";
 import { MenuItem2, Popover2 } from "@blueprintjs/popover2";
 import { ColDef, GetContextMenuItemsParams, MenuItemDef, ModuleRegistry, ValueFormatterParams } from "ag-grid-community"
@@ -7,6 +7,7 @@ import { AgGridReact } from "ag-grid-react"
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Strategy, useStrategies } from "../hooks/useStrategies";
 import { useTheme } from "../hooks/useTheme";
+import { CompareStrategies } from "./CompareStrategies";
 import './StrategyBreakdown.css';
 
 ModuleRegistry.registerModules([
@@ -76,6 +77,7 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
   const [multiselect, setMultiselect] = useState(false);
   const rowData = useStrategies();
   const [theme, setTheme] = useTheme();
+  const [comparisonDialogIsOpen, setComparisonDialogOpen] = useState(false);
 
   const onSelectionChanged = useCallback(() => {
     const rows = gridRef.current!.api.getSelectedRows();
@@ -88,9 +90,10 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
   const getContextMenuItems = useCallback((params: GetContextMenuItemsParams): (string | MenuItemDef)[] => {
     return [
       {
-        name: 'Compare selected…',
+        name: 'Compare Strategies',
         disabled: selectedRows.length !== 2,
-        tooltip: 'Compare selected strategies. Exactly two strategies need to be selected.'
+        tooltip: 'Compare selected strategies. Exactly two strategies need to be selected.',
+        action: () => setComparisonDialogOpen(true),
       },
       'separator',
       'copy',
@@ -106,10 +109,13 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
         ]
       },
     ];
-  }, []);
+  }, [selectedRows.length]);
 
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
+      <Dialog isOpen={comparisonDialogIsOpen} title="Compare Strategies" icon="chart" canEscapeKeyClose onClose={() => setComparisonDialogOpen(false)}>
+        <CompareStrategies strategies={selectedRows} />
+      </Dialog>
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
         <h3 className="bp4-heading" style={{ margin: 8 }}>Strategy Perf Summaries</h3>
         <Switch label="Dark Mode" checked={theme === 'dark'} onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')} style={{ marginTop: "auto", marginBottom: "auto", marginRight: 10 }} />
