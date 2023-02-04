@@ -1,10 +1,11 @@
-import { Button, Checkbox, Dialog, Icon, InputGroup, Menu, MenuDivider, MenuItem, Switch } from "@blueprintjs/core";
+import { Button, Checkbox, Dialog, DialogBody, Icon, InputGroup, Menu, MenuDivider, MenuItem, Switch } from "@blueprintjs/core";
 import { DateRangePicker } from "@blueprintjs/datetime";
 import { MenuItem2, Popover2 } from "@blueprintjs/popover2";
 import { ColDef, GetContextMenuItemsParams, MenuItemDef, ModuleRegistry, ValueFormatterParams } from "ag-grid-community"
 import { SetFilterModule } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react"
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useMultiselect } from "../hooks/useMultiselect";
 import { Strategy, useStrategies } from "../hooks/useStrategies";
 import { useTheme } from "../hooks/useTheme";
 import { CompareStrategies } from "./CompareStrategies";
@@ -74,7 +75,7 @@ export interface StrategyBreakdownProps {
 export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownProps) => {
   const gridRef = useRef<AgGridReact>(null);
   const [selectedRows, setSelectedRows] = useState<Strategy[]>([]);
-  const [multiselect, setMultiselect] = useState(false);
+  const [multiselect, setMultiselect] = useMultiselect();
   const rowData = useStrategies();
   const [theme, setTheme] = useTheme();
   const [comparisonDialogIsOpen, setComparisonDialogOpen] = useState(false);
@@ -113,8 +114,10 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
 
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
-      <Dialog isOpen={comparisonDialogIsOpen} title="Compare Strategies" icon="chart" canEscapeKeyClose onClose={() => setComparisonDialogOpen(false)}>
-        <CompareStrategies strategies={selectedRows} />
+      <Dialog isOpen={comparisonDialogIsOpen} title="Compare Strategies" icon="chart" canEscapeKeyClose onClose={() => setComparisonDialogOpen(false)} style={{ height: 600, width: 1200 }} portalClassName={theme === 'dark' ? 'bp4-dark' : ''}>
+        <DialogBody>
+          <CompareStrategies strategies={selectedRows} />
+        </DialogBody>
       </Dialog>
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
         <h3 className="bp4-heading" style={{ margin: 8 }}>Strategy Perf Summaries</h3>
