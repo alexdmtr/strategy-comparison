@@ -15,7 +15,7 @@ export const MaxPositionsChart = ({ strategies }: ChartProps) => {
     yAxis: [
       {
         type: 'value',
-        name: "Delta Positions",
+        name: "Max Abs Position",
         axisLabel: {
           formatter: "{value}M",
         },
@@ -24,7 +24,7 @@ export const MaxPositionsChart = ({ strategies }: ChartProps) => {
       },
       {
         type: 'value',
-        name: "Positions",
+        name: "Nb Positions",
         axisLabel: {
           formatter: "{value}M"
         },
