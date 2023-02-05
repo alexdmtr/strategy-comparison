@@ -84,5 +84,5 @@ export const MaxPositionsChart = ({ strategies }: ChartProps) => {
     ]
   };
 
-  return <ReactECharts option={options} style={{ height: "100%", width: "100%" }} theme={theme} />;
+  return <ReactECharts option={options} theme={theme} />;
 }

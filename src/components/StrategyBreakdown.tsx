@@ -15,7 +15,7 @@ ModuleRegistry.registerModules([
   SetFilterModule,
 ]);
 
-const defaultColDef: ColDef = {
+export const defaultColDef: ColDef = {
   sortable: true,
   flex: 1,
   floatingFilter: true,
@@ -30,7 +30,7 @@ function currencyFormatter(params: ValueFormatterParams) {
   return new Intl.NumberFormat('en-US', { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(params.value)
 }
 
-const columnDefs: ColDef[] = [
+export const columnDefs: ColDef[] = [
   { field: "name", headerName: "Name", filter: 'agMultiColumnFilter' },
   { field: "desk_name", headerName: "Desk Name", filter: 'agMultiColumnFilter' },
   {
