@@ -48,7 +48,7 @@ export const CompareStrategies = ({ strategies }: CompareStrategiesProps) => {
           onGridReady={(event) => event.api.sizeColumnsToFit()}
         />
       </div>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flexDirection: "row", marginTop: 16 }}>
         <StrategySummary strategy={strategies[0]} />
         <StrategySummary strategy={strategies[1]} />
       </div>
