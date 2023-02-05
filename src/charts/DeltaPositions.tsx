@@ -18,14 +18,18 @@ export const DeltaPositionsChart = ({ strategies }: ChartProps) => {
         name: "Delta Positions",
         axisLabel: {
           formatter: "{value}M",
-        }
+        },
+        nameLocation: "middle",
+        nameGap: 40
       },
       {
         type: 'value',
         name: "Positions",
         axisLabel: {
           formatter: "{value}M"
-        }
+        },
+        nameLocation: "middle",
+        nameGap: 40
       }],
     series: [
       {
@@ -65,7 +69,8 @@ export const DeltaPositionsChart = ({ strategies }: ChartProps) => {
       }
     },
     legend: {
-      data: ["Sum Long Positions", "Sum Abs Short Positions", "Delta Long Short Positions"]
+      data: ["Sum Long Positions", "Sum Abs Short Positions", "Delta Long Short Positions"],
+      top: 25
     },
     dataZoom: [
       {

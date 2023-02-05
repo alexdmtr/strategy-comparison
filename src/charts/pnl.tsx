@@ -24,17 +24,20 @@ export const PnlChart = ({ strategies }: ChartProps) => {
     yAxis: [{
       type: 'value',
       name: "Turnover",
-      position: "left",
       axisLabel: {
         formatter: "{value} M",
-      }
+      },
+      nameLocation: "middle",
+      nameGap: 40
     }, {
       type: 'value',
       name: "Pnl",
       position: "right",
       axisLabel: {
         formatter: "{value}k"
-      }
+      },
+      nameLocation: "middle",
+      nameGap: 40
     }],
     series: [
       {
@@ -65,7 +68,8 @@ export const PnlChart = ({ strategies }: ChartProps) => {
       }
     },
     legend: {
-      data: ["Turnover", "Pnl"]
+      data: ["Turnover", "Pnl"],
+      top: 25
     },
     dataZoom: [
       {

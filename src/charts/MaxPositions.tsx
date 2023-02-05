@@ -18,14 +18,18 @@ export const MaxPositionsChart = ({ strategies }: ChartProps) => {
         name: "Delta Positions",
         axisLabel: {
           formatter: "{value}M",
-        }
+        },
+        nameLocation: "middle",
+        nameGap: 40
       },
       {
         type: 'value',
         name: "Positions",
         axisLabel: {
           formatter: "{value}M"
-        }
+        },
+        nameLocation: "middle",
+        nameGap: 40
       }],
     series: [
       {
@@ -65,7 +69,8 @@ export const MaxPositionsChart = ({ strategies }: ChartProps) => {
       }
     },
     legend: {
-      data: ["Max Sum Long/Short Pos", "Nb Long", "Nb Short"]
+      data: ["Max Sum Long/Short Pos", "Nb Long", "Nb Short"],
+      top: 25
     },
     dataZoom: [
       {
