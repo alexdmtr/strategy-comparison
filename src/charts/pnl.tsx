@@ -84,6 +84,6 @@ export const PnlChart = ({ strategies }: ChartProps) => {
   };
 
   return (
-    <ReactECharts option={options} theme={theme} />
+    <ReactECharts option={options} theme={theme} style={{ flex: 1 }} />
   );
 }
