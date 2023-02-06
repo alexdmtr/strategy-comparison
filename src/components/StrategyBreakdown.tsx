@@ -132,8 +132,8 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
           <Popover2 content={
             <Menu>
               <MenuItem2 text="One Year" labelElement={<Icon icon="small-tick" />} />
-              <MenuItem2 text="Two Years" />
-              <MenuItem2 text="Five Years" />
+              <MenuItem2 text="Two Years" disabled />
+              <MenuItem2 text="Five Years" disabled />
               <MenuDivider />
               <MenuItem2 text="Custom date range…">
                 <DateRangePicker />
