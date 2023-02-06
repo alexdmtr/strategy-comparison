@@ -115,7 +115,7 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
 
   return (
     <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
-      <Dialog isOpen={comparisonDialogIsOpen} title="Compare Strategies" icon="chart" canEscapeKeyClose onClose={() => setComparisonDialogOpen(false)} style={{ height: 600, width: 1200 }} portalClassName={theme === 'dark' ? 'bp4-dark' : ''}>
+      <Dialog isOpen={comparisonDialogIsOpen} title="Compare Strategies" icon="chart" canEscapeKeyClose onClose={() => setComparisonDialogOpen(false)} style={{ height: "80%", width: "80%" }} portalClassName={theme === 'dark' ? 'bp4-dark' : ''}>
         <DialogBody>
           <CompareStrategies strategies={selectedRows} />
         </DialogBody>
