@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/strategy-comparison/static/css/main.e2b3ca34.css",
-    "main.js": "/strategy-comparison/static/js/main.ca39fcdb.js",
+    "main.js": "/strategy-comparison/static/js/main.82864895.js",
     "static/js/787.210e450f.chunk.js": "/strategy-comparison/static/js/787.210e450f.chunk.js",
     "static/media/blueprint-icons-20.eot?": "/strategy-comparison/static/media/blueprint-icons-20.157fc7a37a71b9495da1.eot",
     "static/media/blueprint-icons-20.ttf?": "/strategy-comparison/static/media/blueprint-icons-20.8a525ab91769f6d60c94.ttf",
@@ -13,11 +13,11 @@
     "static/media/blueprint-icons-16.woff2?": "/strategy-comparison/static/media/blueprint-icons-16.8b1c5e35bad17bae103e.woff2",
     "index.html": "/strategy-comparison/index.html",
     "main.e2b3ca34.css.map": "/strategy-comparison/static/css/main.e2b3ca34.css.map",
-    "main.ca39fcdb.js.map": "/strategy-comparison/static/js/main.ca39fcdb.js.map",
+    "main.82864895.js.map": "/strategy-comparison/static/js/main.82864895.js.map",
     "787.210e450f.chunk.js.map": "/strategy-comparison/static/js/787.210e450f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e2b3ca34.css",
-    "static/js/main.ca39fcdb.js"
+    "static/js/main.82864895.js"
   ]
 }
