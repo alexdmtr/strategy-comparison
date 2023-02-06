@@ -79,6 +79,7 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
   const rowData = useStrategies();
   const [theme, setTheme] = useTheme();
   const [comparisonDialogIsOpen, setComparisonDialogOpen] = useState(false);
+  const [quickFilter, setQuickFilter] = useState("");
 
   const onSelectionChanged = useCallback(() => {
     const rows = gridRef.current!.api.getSelectedRows();
@@ -124,8 +125,8 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
         <Switch label="Dark Mode" checked={theme === 'dark'} onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')} style={{ marginTop: "auto", marginBottom: "auto", marginRight: 10 }} />
       </div>
       <div style={{ display: "flex", flexDirection: "row", gap: 8, margin: 8, width: "100%" }}>
-        <InputGroup placeholder="Search strategy..." rightElement={<Button icon="search" minimal />} type="search" />
-        <InputGroup placeholder="Search by author..." rightElement={<Button icon="search" minimal />} type="search" />
+        <InputGroup placeholder="Search strategy..." rightElement={<Button icon="search" minimal />} type="search" value={quickFilter} onChange={(event) => setQuickFilter(event.target.value)} />
+        <InputGroup placeholder="Search by author..." rightElement={<Button icon="search" minimal />} type="search" disabled />
         <div style={{ marginLeft: "auto", marginRight: 15, display: "flex", flexDirection: "row", gap: 8 }}>
           <Checkbox checked={multiselect} onChange={() => setMultiselect(!multiselect)} label="Multiselect" style={{ marginTop: "auto", marginBottom: "auto" }} />
           <Popover2 content={
@@ -151,7 +152,7 @@ export const StrategyBreakdown = ({ onRowSelectionChanged }: StrategyBreakdownPr
           columnDefs={columnDefs}
           rowSelection={multiselect ? "multiple" : "single"}
           onGridReady={(event) => event.api.sizeColumnsToFit()}
-
+          quickFilterText={quickFilter}
           onSelectionChanged={onSelectionChanged}
           getContextMenuItems={getContextMenuItems}
         />
