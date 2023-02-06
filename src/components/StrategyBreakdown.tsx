@@ -26,8 +26,13 @@ function decimalFormatter(params: ValueFormatterParams) {
   return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 }).format(params.value)
 }
 
+
 function currencyFormatter(params: ValueFormatterParams) {
   return new Intl.NumberFormat('en-US', { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(params.value)
+}
+
+function currencyThousandsFormatter(params: ValueFormatterParams) {
+  return `${currencyFormatter(params)}k`;
 }
 
 export const columnDefs: ColDef[] = [
@@ -44,7 +49,7 @@ export const columnDefs: ColDef[] = [
     type: "rightAligned",
   },
   {
-    field: "1y_pnl", headerName: "1Y Pnl (k$)", valueFormatter: currencyFormatter,
+    field: "1y_pnl", headerName: "1Y Pnl (k$)", valueFormatter: currencyThousandsFormatter,
     cellClassRules: {
       'rag-green': params => params.value > 0,
       'rag-red': params => params.value < 0
@@ -53,12 +58,12 @@ export const columnDefs: ColDef[] = [
     type: "rightAligned",
   },
   {
-    field: "1y_stddev_pnl", headerName: "1Y StdDev Pnl (k$)", valueFormatter: currencyFormatter,
+    field: "1y_stddev_pnl", headerName: "1Y StdDev Pnl (k$)", valueFormatter: currencyThousandsFormatter,
     filter: 'agNumberColumnFilter',
     type: "rightAligned",
   },
   {
-    field: "1y_net_pnl", headerName: "1Y Net Pnl (k$)", valueFormatter: currencyFormatter,
+    field: "1y_net_pnl", headerName: "1Y Net Pnl (k$)", valueFormatter: currencyThousandsFormatter,
     cellClassRules: {
       'rag-green': params => params.value > 0,
       'rag-red': params => params.value < 0
