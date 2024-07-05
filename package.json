@@ -1,7 +1,6 @@
 {
   "name": "qrt",
   "version": "0.1.0",
-  "homepage": "https://alexdmtr.github.io/strategy-comparison",
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^4.15.1",
