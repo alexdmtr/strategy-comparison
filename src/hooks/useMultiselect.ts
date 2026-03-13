@@ -1,6 +1,8 @@
-import createPersistedState from 'use-persisted-state';
-const useMultiselectState = createPersistedState<boolean>('grid-multiselect');
+import { useAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
-export function useMultiselect() {
-  return useMultiselectState(false);
+const multiselectAtom = atomWithStorage<boolean>('grid-multiselect', false);
+
+export function useMultiselect(): [boolean, (val: boolean) => void] {
+  return useAtom(multiselectAtom);
 }

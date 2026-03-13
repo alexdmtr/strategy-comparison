@@ -7,7 +7,7 @@
   font-weight: bold;
 }
 
-.bp4-dark .rag-darkgreen {
+.dark-theme .rag-darkgreen {
   color: lightgreen;
 }
 
@@ -15,10 +15,9 @@
   color: green;
 }
 
-.bp4-dark .rag-green {
+.dark-theme .rag-green {
   color: lightgreen;
 }
-
 
 .rag-red {
   color: lightcoral;
